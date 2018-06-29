@@ -1,0 +1,29 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNN", "SharpNN\SharpNN.csproj", "{D067C3A6-0332-446E-8FE9-36E6053E9F64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNN.Tests", "SharpNN.Tests\SharpNN.Tests.csproj", "{DB7156EB-5CEF-4B39-AC85-31DC450096D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{FBF93E66-FF45-44DE-823F-5DFD645E067B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D067C3A6-0332-446E-8FE9-36E6053E9F64}.Debug|x86.ActiveCfg = Debug|x86
+		{D067C3A6-0332-446E-8FE9-36E6053E9F64}.Debug|x86.Build.0 = Debug|x86
+		{D067C3A6-0332-446E-8FE9-36E6053E9F64}.Release|x86.ActiveCfg = Release|x86
+		{D067C3A6-0332-446E-8FE9-36E6053E9F64}.Release|x86.Build.0 = Release|x86
+		{DB7156EB-5CEF-4B39-AC85-31DC450096D6}.Debug|x86.ActiveCfg = Debug|x86
+		{DB7156EB-5CEF-4B39-AC85-31DC450096D6}.Debug|x86.Build.0 = Debug|x86
+		{DB7156EB-5CEF-4B39-AC85-31DC450096D6}.Release|x86.ActiveCfg = Release|x86
+		{DB7156EB-5CEF-4B39-AC85-31DC450096D6}.Release|x86.Build.0 = Release|x86
+		{FBF93E66-FF45-44DE-823F-5DFD645E067B}.Debug|x86.ActiveCfg = Debug|x86
+		{FBF93E66-FF45-44DE-823F-5DFD645E067B}.Debug|x86.Build.0 = Debug|x86
+		{FBF93E66-FF45-44DE-823F-5DFD645E067B}.Release|x86.ActiveCfg = Release|x86
+		{FBF93E66-FF45-44DE-823F-5DFD645E067B}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+EndGlobal
