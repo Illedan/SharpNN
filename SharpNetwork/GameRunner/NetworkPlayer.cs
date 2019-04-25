@@ -27,10 +27,10 @@ namespace GameRunner
         public int GetMove(TicTacToe.Game.TicTacToe game)
         {
             var state = game.GetBoard();
-            var gameState = state.Select(s => s == _playerId?1:(0)).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?1:0))).ToArray();
+            var gameState = state.Select(s => s == _playerId?1:(0)).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?1:0))).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?0:1))).ToArray();
             var result = m_network.Calculate(gameState.Select(s => (double)s).ToArray());
 
-            Console.Error.WriteLine("Weights: " + string.Join(" ", result.Select(r => r.Value)));
+           // Console.Error.WriteLine("Weights: " + string.Join(" ", result.Select(r => r.Value)));
             
             return result.OrderByDescending(r => r.Value).First(r => game.IsPossible(r.Target)).Target;
         }

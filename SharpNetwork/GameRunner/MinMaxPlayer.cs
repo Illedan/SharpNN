@@ -18,16 +18,16 @@ namespace GameRunner
         private static readonly Random rnd = new Random(42);
         public int GetMove(TicTacToe.Game.TicTacToe game)
         {
-            if (rnd.NextDouble() < 0.5)
-            {
-                var move = -1;
-                while (!game.IsPossible(move))
-                {
-                    move = rnd.Next(0, 9);
-                }
-
-                return move;
-            }
+           // if (rnd.NextDouble() < 0.5)
+           // {
+           //     var move = -1;
+           //     while (!game.IsPossible(move))
+           //     {
+           //         move = rnd.Next(0, 9);
+           //     }
+//
+           //     return move;
+           // }
             var bestMoves = new List<int>();
             var bestScore = -10;
             var a = -100;
@@ -56,7 +56,7 @@ namespace GameRunner
             var best = bestMoves.OrderBy(i => rnd.NextDouble()).First();
             var state = game.GetBoard();
             if(_data.Add(GetHash(state)))
-                FileSaver.AddData(string.Join(",", state.Select(s => s == _playerId?1:(0)).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?1:0)))) + "," + best+"\n");
+                FileSaver.AddData(string.Join(",", state.Select(s => s == _playerId?1:(0)).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?1:0))).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?0:1)))) + "," + best+"\n");
             // Console.Error.WriteLine();
             // Console.Error.WriteLine("TIME: " + s.ElapsedMilliseconds);
             // Console.Error.WriteLine("BestScore: " + bestScore);

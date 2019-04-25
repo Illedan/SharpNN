@@ -3,7 +3,7 @@ namespace TicTacToe.Game
     public class Game
     {
         private readonly IPlayer[] m_players;
-        private TicTacToe _game;
+        public TicTacToe _game;
         public Game(IPlayer[] players)
         {
             m_players = players;
