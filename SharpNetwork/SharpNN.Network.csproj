@@ -50,6 +50,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SharpNN\MLPNetwork.cs" />
+    <Compile Include="SharpNN\MLPNetworkFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

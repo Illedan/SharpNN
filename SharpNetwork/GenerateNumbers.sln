@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.329
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenerateNumbers", "GenerateNumbers.csproj", "{642415E2-9309-4A92-9ACC-9A1B61F3EBCB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpNN.Network", "SharpNN.Network.csproj", "{642415E2-9309-4A92-9ACC-9A1B61F3EBCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TicTacToe", "TicTacToe\TicTacToe.csproj", "{96B3E18F-4A9A-4617-B7E3-191F7CBB4F39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameRunner", "GameRunner\GameRunner.csproj", "{8D5969B6-A98D-4B99-89AB-5001AB42A567}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{642415E2-9309-4A92-9ACC-9A1B61F3EBCB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{642415E2-9309-4A92-9ACC-9A1B61F3EBCB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{642415E2-9309-4A92-9ACC-9A1B61F3EBCB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B3E18F-4A9A-4617-B7E3-191F7CBB4F39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B3E18F-4A9A-4617-B7E3-191F7CBB4F39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B3E18F-4A9A-4617-B7E3-191F7CBB4F39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B3E18F-4A9A-4617-B7E3-191F7CBB4F39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D5969B6-A98D-4B99-89AB-5001AB42A567}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D5969B6-A98D-4B99-89AB-5001AB42A567}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D5969B6-A98D-4B99-89AB-5001AB42A567}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D5969B6-A98D-4B99-89AB-5001AB42A567}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

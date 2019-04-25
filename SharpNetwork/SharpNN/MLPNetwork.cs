@@ -1,10 +1,31 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using System.IO;
 using System.Collections.Generic;
 namespace SharpNN
 {
+    public static class ActivationFunctions
+    {
+        public static double Linear(double x) => x;
+		public static double Binary(double x) => x < 0 ? 0 : 1;
+		public static double ReLU(double x) => x < 0 ? 0 : x;
+		public static double Sigmoid(double x) => 1 / (1 + Math.Pow(Math.E, -x));
+		public static double TanH(double x) => Math.Tanh(x);
+		public static double SoftSign(double x) => x / (1 + Math.Abs(x));
+    }
+
+    public class NetworkOutcome
+    {
+        public NetworkOutcome(int target, double value)
+        {
+            Value = value;
+            Target = target;
+        }
+
+        public int Target { get; }
+        public double Value { get; }
+    }
+
     public class NetworkSetup
     {
         public List<LayerSetup> Layers { get; } = new List<LayerSetup>();
@@ -13,23 +34,17 @@ namespace SharpNN
     public class LayerSetup
     {
         public Func<double, double> ActivationFunction { get; set; }
+        
         //Does not include bias.
         public int NodeCount { get; set; }
-        // from this layer to the next. Last layer has no weights.
+
+        // Into this layer from the previous. No weights into bias.
         public double[] Weights { get; set; }
     }
 
-
 	public class MLPNetwork
 	{
-		public static double Linear(double x) => x;
-		public static double Binary(double x) => x < 0 ? 0 : 1;
-		public static double Sigmoid(double x) => 1 / (1 + Math.Pow(Math.E, -x));
-		public static double TanH(double x) => Math.Tanh(x);
-		public static double SoftSign(double x) => x / (1 + Math.Abs(x));
-
-
-		public double[] Calculate(double[] input)
+		public List<NetworkOutcome> Calculate(double[] input)
 		{
 			if (input.Length != Layers[0].Length - 1) throw new ArgumentException("Invalid number of input parameters");
 
@@ -37,8 +52,6 @@ namespace SharpNN
 			{
 				Layers[0][i].OutputValue = Layers[0][i].ActivationFunction(input[i]);
 			}
-
-            Layers[0].Last().CalculateOutput();
 
 			for (var l = 1; l < Layers.Length; l++)
 			{
@@ -48,42 +61,14 @@ namespace SharpNN
 				}
 			}
 
-			return Layers[Layers.Length - 1].Select(l => l.OutputValue).ToArray();
-		}
+			var resultLayer = Layers[Layers.Length - 1].Select(l => l.OutputValue).ToArray();
+            var outcome = new List<NetworkOutcome>();
+            for(var i = 0; i < resultLayer.Length; i++)
+            {
+                outcome.Add(new NetworkOutcome(i, resultLayer[i]));
+            }
 
-
-
-		public static MLPNetwork CreateMLPNetwork(NetworkSetup setup)
-		{
-			var network = new MLPNetwork { Layers = new Node[setup.Layers.Count][] };
-			for (var i = 0; i < setup.Layers.Count; i++)
-			{
-                var layer = setup.Layers[i];
-                var includeBias = i != setup.Layers.Count-1;
-				network.Layers[i] = Enumerable.Range(0, layer.NodeCount + (includeBias?1:0)).Select(l => new Node(layer.ActivationFunction, l == layer.NodeCount)).ToArray();
-			}
-
-			var rnd = new Random();
-			for (var i = 1; i < network.Layers.Length; i++)
-			{
-			    var weightCounter = 0;
-                var currentLayer = network.Layers[i];
-                var previousLayer = network.Layers[i - 1];
-                var layerSetup = setup.Layers[i];
-				foreach (var n in previousLayer)
-				{
-					foreach (var nextNode in currentLayer)
-					{
-                        if(nextNode.IsBias) continue;
-						nextNode.InputLinks.Add(new Link(layerSetup.Weights[weightCounter++])
-                        {
-                            SourceNode = n, DestinationNode = nextNode 
-                        });
-					}
-				} 
-			}
-
-			return network;
+            return outcome;
 		}
 
 		public Node[][] Layers { get; set; }
@@ -99,7 +84,7 @@ namespace SharpNN
 
         public bool IsBias { get; set; }
 		public Func<double, double> ActivationFunction { get; }
-		public double OutputValue;
+		public double OutputValue = 1.0;
 		public List<Link> InputLinks { get; } = new List<Link>();
 		public virtual void CalculateOutput()
 		{

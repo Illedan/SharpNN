@@ -1,36 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System;
 using System.IO;
-using SharpNN;
+using System.Linq;
+using GenerateNumbers;
 using GenerateNumbers.SharpNN;
+using Newtonsoft.Json;
+using SharpNN;
+using TicTacToe.Game;
 
-namespace GenerateNumbers
+namespace GameRunner
 {
-    public class NetworkWrapper
+    public class NetworkPlayer : IPlayer
     {
         private MLPNetwork m_network;
-        public NetworkWrapper(string filename, string configName)
+        public NetworkPlayer()
         {
-            var setup = ReadSetup(filename, configName);
+            var setup = ReadSetup("weights.txt", "network.txt");
             m_network = MLPNetworkFactory.CreateMLPNetwork(setup);
         }
-
-        public int Calculate(int a, int b, bool printDebug = false)
+        private int _playerId;
+        private int OtherPlayer => _playerId == 1 ? 2 : 1;
+        public void Initialize(int playerId)
         {
-            var result = m_network.Calculate(new double[]{ a, b });
-
-            if (printDebug)
-            {
-                Console.Error.WriteLine("Weights: " + string.Join(" ", result.Select(r => r.Value)));
-            }
-            
-            return result.OrderByDescending(r => r.Value).First().Target;
+            _playerId = playerId;
         }
 
+        public int GetMove(TicTacToe.Game.TicTacToe game)
+        {
+            var state = game.GetBoard();
+            var gameState = state.Select(s => s == _playerId?1:(0)).Concat(state.Select(s => s == _playerId?0:(s==OtherPlayer?1:0))).ToArray();
+            var result = m_network.Calculate(gameState.Select(s => (double)s).ToArray());
+
+            Console.Error.WriteLine("Weights: " + string.Join(" ", result.Select(r => r.Value)));
+            
+            return result.OrderByDescending(r => r.Value).First(r => game.IsPossible(r.Target)).Target;
+        }
+        
         public static NetworkSetup ReadSetup(string weightname, string configName)
         {
             var config = JsonConvert.DeserializeObject<RootObject>(File.ReadAllText(configName));
@@ -73,7 +77,7 @@ namespace GenerateNumbers
 
             return network;
         }
-
+        
         private static double[] ExtractWeights(string txt)
         {
             txt = txt.Replace("[", " ").Replace("]", " ").Replace(",", " ").Replace("\n", " ").Replace("\r", " ").Replace("\"", " ").Trim();
@@ -84,28 +88,5 @@ namespace GenerateNumbers
 
             return txt.Split().Select(double.Parse).ToArray();
         }
-    }
-
-    public class LayerConfig
-    {
-        public int units { get; set; }
-        public string activation { get; set; }
-        public bool use_bias { get; set; }
-    }
-
-    public class Layer
-    {
-        public LayerConfig config { get; set; }
-    }
-
-    public class Config
-    {
-        public List<Layer> layers { get; set; }
-        public List<int?> build_input_shape { get; set; }
-    }
-
-    public class RootObject
-    {
-        public Config config { get; set; }
     }
 }
