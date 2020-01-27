@@ -64,6 +64,7 @@ print("antall testdata: " + str(len(x_test)) + "\n")
 
 model = tf.keras.models.Sequential([
   tf.keras.layers.Dense(100, activation='linear'),
+  tf.keras.layers.Dense(100, activation='linear'),
   #tf.keras.layers.Dropout(0.2),
   tf.keras.layers.Dense(2, activation='softmax')
 ])
